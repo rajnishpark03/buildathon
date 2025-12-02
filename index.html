@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buildathon by TuteDude | An IIT Delhi Alumni Initiative</title>
+    <meta name="description" content="Join India’s premium hackathon — create the future with TuteDude. Dec 1 - Dec 31.">
+    
+    <!-- Google Fonts: Outfit (Body) & Space Grotesk (Headings) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#711E7C',
+                        primaryLight: '#B65CDB',
+                        primaryDark: '#4A1252',
+                        darkBg: '#05010D', // Darker, richer black/purple
+                        cardBg: '#12041F',
+                        accent: '#00F0FF', // Cyan accent for tech vibes
+                        success: '#00FF94',
+                        mauve: '#8B6B98',
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-gradient': 'radial-gradient(circle at 50% 0%, #2D1B36 0%, #05010D 70%)',
+                        'card-gradient': 'linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'pulse-glow': 'pulse-glow 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.2)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.8)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(113, 30, 124, 0.5)' },
+                            '50%': { opacity: 0.7, boxShadow: '0 0 10px rgba(113, 30, 124, 0.2)' },
+                        },
+                         float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #05010D;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Premium Glass */
+        .glass-premium {
+            background: rgba(18, 4, 31, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+
+        .glass-premium:hover {
+            border-color: rgba(113, 30, 124, 0.5);
+            background: rgba(18, 4, 31, 0.8);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(113, 30, 124, 0.2);
+        }
+
+        /* Gradient Text for "Innovate" */
+        .text-gradient-innovate {
+            background: linear-gradient(90deg, #B65CDB 0%, #60A5FA 50%, #00F0FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05010D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4A1252;
+            border-radius: 4px;
+        }
+
+        /* Pipeline Connector */
+        .pipeline-connector {
+            position: absolute;
+            top: 2.5rem;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #1F1F1F;
+            z-index: 0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .pipeline-connector::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #711E7C, #00F0FF, transparent);
+            animation: flow 3s linear infinite;
+        }
+        
+        @keyframes flow {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FFF 0%, #B65CDB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animations */
+        .fade-up {
+            opacity: 1; 
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .fade-up.prepare-animation {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-black font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-premium border-b-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo(0,0)">
+                    
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primaryLight to-primaryDark flex items-center justify-center text-white font-bold font-display text-xl group-hover:shadow-[0_0_15px_rgba(255,255,255)] transition-all p-2">
+                        <img src="Logo.png" alt="Logo"> 
+                    </div>
+                    <div>
+                        <span class="block text-xl font-bold font-display tracking-tight text-white group-hover:text-primaryLight transition-colors">Buildathon</span>
+                        <span class="block text-[10px] text-gray-400 uppercase tracking-widest font-semibold">by TuteDude</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="text-gray-300 hover:text-white transition-all px-3 py-2 rounded-md text-sm font-medium hover:bg-white/5">About</a>
+                        <a href="#rules" class="text-gray-300 hover:text-white transition-all px-3 py-2 rounded-md text-sm font-medium hover:bg-white/5">Rules</a>
+                        <a href="#faq" class="text-gray-300 hover:text-white transition-all px-3 py-2 rounded-md text-sm font-medium hover:bg-white/5">FAQ</a>
+                        <a href="https://forms.google.com/placeholder" target="_blank" class="bg-white text-black hover:bg-accent hover:text-black px-6 py-2.5 rounded-full text-sm font-bold transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(255,255,255,0.2)] font-display">
+                            Submit Idea
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-darkBg/95 backdrop-blur-xl border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block hover:bg-white/10 px-3 py-2 rounded-md text-base font-medium text-gray-300">About</a>
+                <a href="#rules" class="block hover:bg-white/10 px-3 py-2 rounded-md text-base font-medium text-gray-300">Rules</a>
+                <a href="#faq" class="block hover:bg-white/10 px-3 py-2 rounded-md text-base font-medium text-gray-300">FAQ</a>
+                <a href="https://forms.google.com/placeholder" target="_blank" class="block bg-primary text-white text-center mt-4 px-3 py-3 rounded-md text-base font-bold font-display">Submit Idea</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1️⃣ Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-hero-gradient">
+        <!-- Subtle Glow in background -->
+        <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[150px] animate-blob"></div>
+        <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-[150px] animate-blob" style="animation-delay: 2s;"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center z-10 fade-up">
+            
+            <!-- Tagline Badge -->
+            <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-10 hover:border-white/20 transition-colors cursor-default shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-success shadow-[0_0_8px_rgba(0,255,148,0.6)]"></span>
+                <span class="text-xs font-bold tracking-[0.15em] text-gray-200 uppercase font-display">An IIT Delhi Alumni Initiative</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="text-5xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8 leading-[1.1] font-display">
+                <span class="text-white">Build.</span> 
+                <span class="text-gradient-innovate">Innovate.</span> <br/>
+                <span class="text-white relative inline-block">
+                    Win
+                </span>
+                <span class="relative inline-block">
+                    <!-- Updated to 15,000 as per request (1st Prize) -->
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 drop-shadow-[0_0_25px_rgba(234,179,8,0.5)]">₹15,000</span>
+                    <!-- Purple Underline Stroke -->
+                    <svg class="absolute -bottom-3 left-0 w-full h-4 text-[#711E7C]" viewBox="0 0 100 10" preserveAspectRatio="none">
+                        <path d="M0 5 Q 50 12 100 5" stroke="currentColor" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.8"/>
+                    </svg>
+                </span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="text-lg md:text-2xl text-gray-400 max-w-3xl mb-14 font-light leading-relaxed">
+                India’s premium innovation sprint. Turn bold ideas into reality <br class="hidden md:block"/>
+                with <span class="text-white font-semibold">TuteDude</span>.
+            </p>
+             <!-- Info Badges (Online Mode & Date) -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <div class="flex items-center gap-2 px-6 py-3 rounded-xl border border-[#711E7C]/30 bg-[#711E7C]/10 text-gray-200 font-medium">
+                    <svg class="w-5 h-5 text-[#B65CDB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span>Online Mode</span>
+                </div>
+                <div class="flex items-center gap-2 px-6 py-3 rounded-xl border border-[#711E7C]/30 bg-[#711E7C]/10 text-gray-200 font-medium">
+                    <svg class="w-5 h-5 text-[#B65CDB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Dec 1 - Dec 31</span>
+                </div>
+            </div>
+
+            <!-- CTA Buttons -->
+             <div>
+                <a href="https://forms.google.com/placeholder" target="_blank" class="group relative inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-white transition-all duration-300 bg-[#711E7C] rounded-full hover:bg-[#8e299b] hover:shadow-[0_0_30px_rgba(113,30,124,0.4)] font-display">
+                    Submit Idea
+                    <svg class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2️⃣ Key Highlights Section (Glass Cards) -->
+    <section class="py-24 relative bg-darkBg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="glass-premium p-8 rounded-3xl fade-up group">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl flex items-center justify-center mb-6 border border-white/5 group-hover:border-primary/50 transition-colors">
+                        <svg class="w-7 h-7 text-primaryLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <!-- Updated to 15,000 -->
+                    <h3 class="text-3xl font-bold mb-2 gradient-text font-display">₹15,000</h3>
+                    <p class="text-gray-400 text-sm tracking-wide uppercase">1st Prize</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-premium p-8 rounded-3xl fade-up group" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl flex items-center justify-center mb-6 border border-white/5 group-hover:border-primary/50 transition-colors">
+                        <svg class="w-7 h-7 text-primaryLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-white font-display">Open to All</h3>
+                    <p class="text-gray-400 text-sm tracking-wide uppercase">Students & Working Professionals</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-premium p-8 rounded-3xl fade-up group" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl flex items-center justify-center mb-6 border border-white/5 group-hover:border-primary/50 transition-colors">
+                         <svg class="w-7 h-7 text-primaryLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-white font-display">14 Days</h3>
+                    <p class="text-gray-400 text-sm tracking-wide uppercase">Intense Building</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-premium p-8 rounded-3xl fade-up group" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary/20 to-transparent rounded-2xl flex items-center justify-center mb-6 border border-white/5 group-hover:border-primary/50 transition-colors">
+                        <svg class="w-7 h-7 text-primaryLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-white font-display">Certificate</h3>
+                    <p class="text-gray-400 text-sm tracking-wide uppercase">Resume Boost</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3️⃣ What is Buildathon? -->
+    <section id="about" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-primary/5 skew-y-3 transform origin-top-left z-0"></div>
+        <div class="absolute right-0 top-1/4 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] -z-10"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center fade-up">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 font-display leading-tight text-white">
+                What is <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-primaryLight to-accent relative inline-block">
+                    Buildathon?
+                    <span class="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primaryLight to-accent opacity-50"></span>
+                </span>
+            </h2>
+            <p class="text-xl text-gray-300 leading-relaxed mb-6 font-light">
+                A high-octane, 14-day online innovation sprint where designers, developers, and problem-solvers converge.
+            </p>
+            <p class="text-xl text-gray-300 leading-relaxed font-light">
+                This isn't just a hackathon; it's a launchpad. You'll turn bold ideas into functional, impactful products and showcase your talent to the world.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-4 font-display text-lg justify-center">
+                <span class="text-white font-bold">Build.</span>
+                <span class="text-accent font-bold">Solve.</span>
+                <span class="text-primaryLight font-bold">Showcase.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4️⃣ "How It Works" -->
+    <section id="how-it-works" class="py-28 relative bg-[#080214] overflow-hidden">
+        <!-- Background Circuit Lines -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#711E7C 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 fade-up">
+                <span class="text-accent text-sm font-bold tracking-widest uppercase mb-2 block">The Process</span>
+                <h2 class="text-4xl md:text-5xl font-bold font-display text-white">From Idea to Reality</h2>
+            </div>
+            
+            <!-- Desktop Pipeline View -->
+            <div class="hidden md:block relative pt-12 pb-20 fade-up">
+                <!-- Glowing Connector Line -->
+                <div class="pipeline-connector"></div>
+
+                <div class="grid grid-cols-5 gap-4">
+                    <!-- Step 1 -->
+                    <div class="relative group">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#080214] border-2 border-accent rounded-full z-10 group-hover:bg-accent transition-colors"></div>
+                        <div class="mt-8 p-6 glass-premium rounded-2xl border-t-4 border-t-accent hover:border-t-white transition-all duration-300 h-full relative overflow-hidden">
+                            <div class="text-5xl font-bold text-white/10 absolute top-4 right-4 font-display">01</div>
+                            <span class="inline-block px-2 py-1 bg-accent/10 text-accent rounded text-[10px] font-bold mb-3 border border-accent/20 uppercase tracking-wide">Dec 1 – Dec 5</span>
+                            <h3 class="text-xl font-bold text-white mb-2 font-display">Submit Idea</h3>
+                            <p class="text-sm text-gray-400">Validate your concept. Fill the form with your vision.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative group mt-12">
+                        <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 w-3 h-16 bg-gradient-to-b from-primary/50 to-transparent"></div>
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#080214] border-2 border-gray-600 rounded-full z-10 group-hover:border-primary transition-colors"></div>
+                        <div class="mt-8 p-6 glass-premium rounded-2xl border-t-4 border-t-gray-700 hover:border-t-primary transition-all duration-300 h-full relative overflow-hidden">
+                            <div class="text-5xl font-bold text-white/10 absolute top-4 right-4 font-display">02</div>
+                            <span class="inline-block px-2 py-1 bg-white/10 text-gray-300 rounded text-[10px] font-bold mb-3 border border-white/10 uppercase tracking-wide">Dec 5 – Dec 7</span>
+                            <h3 class="text-xl font-bold text-white mb-2 font-display">Shortlist</h3>
+                            <p class="text-sm text-gray-400">Top ideas are selected by our expert panel.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative group">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#080214] border-2 border-gray-600 rounded-full z-10 group-hover:border-primary transition-colors"></div>
+                        <div class="mt-8 p-6 glass-premium rounded-2xl border-t-4 border-t-gray-700 hover:border-t-primary transition-all duration-300 h-full relative overflow-hidden">
+                            <div class="text-5xl font-bold text-white/10 absolute top-4 right-4 font-display">03</div>
+                            <span class="inline-block px-2 py-1 bg-white/10 text-gray-300 rounded text-[10px] font-bold mb-3 border border-white/10 uppercase tracking-wide">Dec 7 – Dec 9</span>
+                            <h3 class="text-xl font-bold text-white mb-2 font-display">Team Up</h3>
+                            <p class="text-sm text-gray-400">Find your squad. Designers meets Developers.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative group mt-12">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#080214] border-2 border-gray-600 rounded-full z-10 group-hover:border-primary transition-colors"></div>
+                        <div class="mt-8 p-6 glass-premium rounded-2xl border-t-4 border-t-gray-700 hover:border-t-primary transition-all duration-300 h-full relative overflow-hidden">
+                            <div class="text-5xl font-bold text-white/10 absolute top-4 right-4 font-display">04</div>
+                            <span class="inline-block px-2 py-1 bg-white/10 text-gray-300 rounded text-[10px] font-bold mb-3 border border-white/10 uppercase tracking-wide">Dec 10 – Dec 24</span>
+                            <h3 class="text-xl font-bold text-white mb-2 font-display">Build</h3>
+                            <p class="text-sm text-gray-400">14 days of intense coding, designing & deploying.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="relative group">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-[#080214] border-2 border-yellow-400 rounded-full z-10 shadow-[0_0_15px_rgba(250,204,21,0.5)]"></div>
+                        <div class="mt-8 p-6 glass-premium rounded-2xl border-t-4 border-t-yellow-400 hover:bg-yellow-400/5 transition-all duration-300 h-full relative overflow-hidden">
+                            <div class="text-5xl font-bold text-white/10 absolute top-4 right-4 font-display">05</div>
+                            <span class="inline-block px-2 py-1 bg-yellow-400/10 text-yellow-400 rounded text-[10px] font-bold mb-3 border border-yellow-400/20 uppercase tracking-wide">Dec 24 – Dec 31</span>
+                            <h3 class="text-xl font-bold text-white mb-2 font-display">Pitch & Win</h3>
+                            <p class="text-sm text-gray-400">Present to judges. Win big prizes & swag.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Process View -->
+            <div class="md:hidden space-y-6 fade-up">
+                <div class="glass-premium p-6 rounded-xl border-l-4 border-l-accent flex items-start gap-4">
+                    <span class="text-4xl font-bold text-accent font-display">01</span>
+                    <div>
+                        <span class="inline-block px-2 py-0.5 bg-accent/10 text-accent rounded text-[10px] font-bold mb-1 border border-accent/20 uppercase">Dec 1 – Dec 5</span>
+                        <h3 class="font-bold text-white text-lg">Submit Idea</h3>
+                        <p class="text-sm text-gray-400">Share your concept via the form.</p>
+                    </div>
+                </div>
+                <div class="glass-premium p-6 rounded-xl border-l-4 border-l-gray-700 flex items-start gap-4">
+                     <span class="text-4xl font-bold text-gray-700 font-display">02</span>
+                    <div>
+                        <span class="inline-block px-2 py-0.5 bg-white/10 text-gray-400 rounded text-[10px] font-bold mb-1 border border-white/10 uppercase">Dec 5 – Dec 7</span>
+                        <h3 class="font-bold text-white text-lg">Shortlisting</h3>
+                        <p class="text-sm text-gray-400">Top ideas selected.</p>
+                    </div>
+                </div>
+                <div class="glass-premium p-6 rounded-xl border-l-4 border-l-gray-700 flex items-start gap-4">
+                     <span class="text-4xl font-bold text-gray-700 font-display">03</span>
+                    <div>
+                        <span class="inline-block px-2 py-0.5 bg-white/10 text-gray-400 rounded text-[10px] font-bold mb-1 border border-white/10 uppercase">Dec 7 – Dec 9</span>
+                        <h3 class="font-bold text-white text-lg">Team Up</h3>
+                        <p class="text-sm text-gray-400">Form a squad of 3-5.</p>
+                    </div>
+                </div>
+                 <div class="glass-premium p-6 rounded-xl border-l-4 border-l-gray-700 flex items-start gap-4">
+                     <span class="text-4xl font-bold text-gray-700 font-display">04</span>
+                    <div>
+                        <span class="inline-block px-2 py-0.5 bg-white/10 text-gray-400 rounded text-[10px] font-bold mb-1 border border-white/10 uppercase">Dec 10 – Dec 24</span>
+                        <h3 class="font-bold text-white text-lg">Build</h3>
+                        <p class="text-sm text-gray-400">14 days of creation.</p>
+                    </div>
+                </div>
+                 <div class="glass-premium p-6 rounded-xl border-l-4 border-l-yellow-400 flex items-start gap-4">
+                     <span class="text-4xl font-bold text-yellow-400 font-display">05</span>
+                    <div>
+                        <span class="inline-block px-2 py-0.5 bg-yellow-400/10 text-yellow-400 rounded text-[10px] font-bold mb-1 border border-yellow-400/20 uppercase">Dec 24 – Dec 31</span>
+                        <h3 class="font-bold text-white text-lg">Pitch & Win</h3>
+                        <p class="text-sm text-gray-400">Present & celebrate.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons Area -->
+            <div class="mt-20 flex flex-col md:flex-row justify-center items-center gap-6 fade-up">
+                <!-- Primary CTA: Submit Idea -->
+                <a href="https://forms.google.com/placeholder" target="_blank" class="relative group w-full md:w-auto inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-white transition-all duration-300 bg-[#711E7C] rounded-xl overflow-hidden hover:shadow-[0_0_40px_rgba(113,30,124,0.6)] border border-[#9D2DAD]/30 font-display">
+                    <!-- Hover Shine Effect -->
+                    <span class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out skew-x-12"></span>
+                    
+                    <!-- Button Content -->
+                    <span class="relative flex items-center gap-2">
+                        Submit Idea
+                        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </span>
+                </a>
+                
+                <!-- Secondary CTA: Join Team (Locked) -->
+                <button disabled class="relative w-full md:w-auto inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-gray-500 bg-[#12041F] rounded-xl cursor-not-allowed border border-[#711E7C]/20 font-display group">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-600 group-hover:text-[#711E7C] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Join Team
+                    </span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6️⃣ Who Can Join -->
+    <section id="who" class="py-24 relative bg-[#05010D] overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-5xl bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 fade-up">
+                <h2 class="text-4xl md:text-5xl font-bold font-display text-white mb-6">Who Can Join?</h2>
+                <div class="flex flex-col items-center gap-4">
+                    <p class="text-gray-400 text-lg max-w-2xl mx-auto">We welcome visionaries from all disciplines. Whether you code, design, or lead, there's a place for you.</p>
+                    <!-- Exclusivity Note (New) -->
+                    <div class="inline-block bg-rose-900/20 border border-rose-500/20 px-6 py-2 rounded-full">
+                        <p class="text-rose-300 text-sm font-semibold tracking-wide">⚠ Exclusively for enrolled Tutedude Students</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Developers Card -->
+                <div class="group relative fade-up">
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-3xl blur opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div class="relative h-full bg-[#0E0616] border border-white/5 rounded-3xl p-8 flex flex-col items-center text-center transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                        <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-colors"></div>
+                        
+                        <div class="w-20 h-20 rounded-2xl bg-[#05010D] border border-blue-500/30 flex items-center justify-center mb-8 shadow-[0_0_20px_rgba(59,130,246,0.15)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-shadow duration-300">
+                            <svg class="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-white font-display mb-3 group-hover:text-blue-400 transition-colors">Developers</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">Engineers & Coders ready to ship robust code.</p>
+                    </div>
+                </div>
+
+                <!-- Designers Card -->
+                <div class="group relative fade-up" style="transition-delay: 100ms;">
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-400 rounded-3xl blur opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div class="relative h-full bg-[#0E0616] border border-white/5 rounded-3xl p-8 flex flex-col items-center text-center transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/20 transition-colors"></div>
+
+                        <div class="w-20 h-20 rounded-2xl bg-[#05010D] border border-purple-500/30 flex items-center justify-center mb-8 shadow-[0_0_20px_rgba(168,85,247,0.15)] group-hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-shadow duration-300">
+                            <svg class="w-10 h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-white font-display mb-3 group-hover:text-purple-400 transition-colors">Designers</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">UI/UX & Product Designers crafting experiences.</p>
+                    </div>
+                </div>
+
+                <!-- Hustlers Card -->
+                <div class="group relative fade-up" style="transition-delay: 200ms;">
+                    <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-300 rounded-3xl blur opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div class="relative h-full bg-[#0E0616] border border-white/5 rounded-3xl p-8 flex flex-col items-center text-center transition-transform duration-300 group-hover:-translate-y-2 overflow-hidden">
+                         <div class="absolute -top-20 -right-20 w-40 h-40 bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-colors"></div>
+
+                        <div class="w-20 h-20 rounded-2xl bg-[#05010D] border border-green-500/30 flex items-center justify-center mb-8 shadow-[0_0_20px_rgba(34,197,94,0.15)] group-hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] transition-shadow duration-300">
+                            <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-white font-display mb-3 group-hover:text-green-400 transition-colors">Hustlers</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">Product Managers & Builders with vision.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8️⃣ Prize Pool -->
+    <section id="prizes" class="py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] pointer-events-none animate-pulse-glow"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 fade-up">
+            <span class="inline-block py-1.5 px-5 rounded-full bg-white/5 border border-white/10 text-sm font-bold tracking-[0.2em] text-gray-300 mb-12 backdrop-blur-md uppercase">Prize Pool Distribution</span>
+            
+            <!-- Prize Breakdown Cards -->
+            <div class="flex flex-col md:flex-row justify-center items-end gap-6 md:gap-8 mb-12">
+                
+                <!-- 2nd Prize -->
+                <div class="order-2 md:order-1 relative w-full md:w-64">
+                    <div class="glass-premium p-6 rounded-2xl border-t-4 border-gray-400 hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-4xl mb-2">🥈</div>
+                        <h3 class="text-3xl font-bold text-white mb-1 font-display">₹9,000</h3>
+                        <p class="text-gray-400 font-medium uppercase tracking-wider text-sm">2nd Prize</p>
+                    </div>
+                    <!-- Podium Block -->
+                    <div class="h-16 w-full bg-gradient-to-t from-gray-900 to-gray-800/50 mt-4 rounded-t-lg border-t border-gray-700/50 hidden md:block"></div>
+                </div>
+
+                <!-- 1st Prize -->
+                <div class="order-1 md:order-2 relative w-full md:w-72 z-10">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-yellow-400 animate-bounce">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <div class="glass-premium p-8 rounded-2xl border-t-4 border-yellow-400 shadow-[0_0_40px_rgba(234,179,8,0.2)] hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-5xl mb-3">🏆</div>
+                        <h3 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 mb-2 font-display">₹15,000</h3>
+                        <p class="text-yellow-200 font-bold uppercase tracking-wider">1st Prize</p>
+                    </div>
+                    <!-- Podium Block -->
+                    <div class="h-24 w-full bg-gradient-to-t from-gray-900 to-gray-800/50 mt-4 rounded-t-lg border-t border-yellow-500/30 hidden md:block"></div>
+                </div>
+
+                <!-- 3rd Prize -->
+                <div class="order-3 md:order-3 relative w-full md:w-64">
+                    <div class="glass-premium p-6 rounded-2xl border-t-4 border-orange-700 hover:-translate-y-2 transition-transform duration-300">
+                        <div class="text-4xl mb-2">🥉</div>
+                        <h3 class="text-3xl font-bold text-white mb-1 font-display">₹6,000</h3>
+                        <p class="text-gray-400 font-medium uppercase tracking-wider text-sm">3rd Prize</p>
+                    </div>
+                    <!-- Podium Block -->
+                    <div class="h-8 w-full bg-gradient-to-t from-gray-900 to-gray-800/50 mt-4 rounded-t-lg border-t border-orange-900/50 hidden md:block"></div>
+                </div>
+
+            </div>
+            
+            <p class="text-3xl md:text-4xl font-bold mb-6 text-white font-display">
+                + Exclusive Certificates
+            </p>
+            
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                Build a premium project, boost your resume, and get recognized by the best in the industry.
+            </p>
+        </div>
+    </section>
+
+    <!-- 9️⃣ What Can You Build -->
+    <section class="py-24 bg-darkBg relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="grid md:grid-cols-2 gap-16 lg:gap-24">
+                
+                <!-- What Can You Build Column -->
+                <div class="fade-up">
+                    <h2 class="text-3xl font-bold mb-10 font-display text-white border-l-4 border-primary pl-4">What Can You Build?</h2>
+                    <div class="flex flex-wrap gap-4">
+                        <span class="px-6 py-3 rounded-full bg-[#1A0B2E] border border-primary/30 text-white font-medium hover:bg-primary hover:border-primary transition-all duration-300 cursor-default shadow-lg hover:shadow-primary/50">Websites</span>
+                        <span class="px-6 py-3 rounded-full bg-[#1A0B2E] border border-primary/30 text-white font-medium hover:bg-primary hover:border-primary transition-all duration-300 cursor-default shadow-lg hover:shadow-primary/50">Mobile Apps</span>
+                        <span class="px-6 py-3 rounded-full bg-[#1A0B2E] border border-primary/30 text-white font-medium hover:bg-primary hover:border-primary transition-all duration-300 cursor-default shadow-lg hover:shadow-primary/50">SaaS Tools</span>
+                        <span class="px-6 py-3 rounded-full bg-[#1A0B2E] border border-primary/30 text-white font-medium hover:bg-primary hover:border-primary transition-all duration-300 cursor-default shadow-lg hover:shadow-primary/50">AI Agents</span>
+                        <span class="px-6 py-3 rounded-full bg-[#1A0B2E] border border-primary/30 text-white font-medium hover:bg-primary hover:border-primary transition-all duration-300 cursor-default shadow-lg hover:shadow-primary/50">Blockchain</span>
+                        <span class="px-6 py-3 rounded-full bg-[#1A0B2E] border border-primary/30 text-white font-medium hover:bg-primary hover:border-primary transition-all duration-300 cursor-default shadow-lg hover:shadow-primary/50">Many more</span>
+                    </div>
+                </div>
+
+                <!-- Key Benefits Column -->
+                <div class="fade-up" style="transition-delay: 200ms;">
+                    <h2 class="text-3xl font-bold mb-10 font-display text-white border-l-4 border-accent pl-4">Key Benefits</h2>
+                    <ul class="space-y-6">
+                        <li class="flex items-center text-gray-300 group">
+                            <span class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mr-5 text-accent border border-accent/20 group-hover:bg-accent group-hover:text-black transition-all duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </span>
+                            <span class="text-lg">Build in <span class="text-white font-bold group-hover:text-accent transition-colors">record time</span></span>
+                        </li>
+                        <li class="flex items-center text-gray-300 group">
+                             <span class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mr-5 text-accent border border-accent/20 group-hover:bg-accent group-hover:text-black transition-all duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </span>
+                            <span class="text-lg">Real <span class="text-white font-bold group-hover:text-accent transition-colors">product environment</span></span>
+                        </li>
+                        <li class="flex items-center text-gray-300 group">
+                             <span class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center mr-5 text-accent border border-accent/20 group-hover:bg-accent group-hover:text-black transition-all duration-300">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </span>
+                            <span class="text-lg">Premium <span class="text-white font-bold group-hover:text-accent transition-colors">CV Boost</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7️⃣ Team Rules & Structure (Moved here) -->
+    <section id="rules" class="py-24 bg-darkBg border-y border-white/5">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center mb-16 fade-up font-display text-white">Team Rules & Structure</h2>
+            
+            <div class="glass-premium p-10 rounded-3xl fade-up relative overflow-hidden">
+                <div class="grid md:grid-cols-2 gap-x-12 gap-y-10 relative z-10">
+                    <div class="flex items-start space-x-5 group">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white text-xl font-bold font-display border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/20 transition-all duration-300 shadow-lg">1</div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white mb-2 font-display group-hover:text-primaryLight transition-colors">Team Size</h4>
+                            <p class="text-gray-400 text-base leading-relaxed">3–5 members per team (including the leader).</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-5 group">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white text-xl font-bold font-display border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/20 transition-all duration-300 shadow-lg">2</div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white mb-2 font-display group-hover:text-primaryLight transition-colors">Roles</h4>
+                            <p class="text-gray-400 text-base leading-relaxed">Must have at least <span class="text-white font-medium border-b border-primary/50">1 Designer</span> & <span class="text-white font-medium border-b border-primary/50">1 Developer</span>.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-5 group">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white text-xl font-bold font-display border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/20 transition-all duration-300 shadow-lg">3</div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white mb-2 font-display group-hover:text-primaryLight transition-colors">Idea Pivoting</h4>
+                            <p class="text-gray-400 text-base leading-relaxed">Leader's idea not shortlisted? Join another team.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-5 group">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-white text-xl font-bold font-display border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/20 transition-all duration-300 shadow-lg">4</div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white mb-2 font-display group-hover:text-primaryLight transition-colors">AI Policy</h4>
+                            <p class="text-gray-400 text-base leading-relaxed">AI tools allowed. Originality is mandatory.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1️⃣0️⃣ Judging Criteria -->
+    <section id="judging" class="py-24 bg-darkBg border-y border-white/5 relative">
+         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl bg-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-4xl font-bold text-center mb-16 fade-up font-display text-white">Judging Criteria</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <!-- Criterion 1 -->
+                <div class="glass-premium p-6 rounded-2xl text-center fade-up group hover:-translate-y-1 transition-transform duration-300">
+                    <div class="w-12 h-12 mx-auto bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 text-blue-400 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-white text-sm md:text-base font-display">Problem Understanding</h3>
+                </div>
+
+                <!-- Criterion 2 -->
+                <div class="glass-premium p-6 rounded-2xl text-center fade-up group hover:-translate-y-1 transition-transform duration-300" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 mx-auto bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 text-purple-400 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-white text-sm md:text-base font-display">UI/UX Implementation</h3>
+                </div>
+
+                <!-- Criterion 3 -->
+                <div class="glass-premium p-6 rounded-2xl text-center fade-up group hover:-translate-y-1 transition-transform duration-300" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 mx-auto bg-green-500/10 rounded-xl flex items-center justify-center mb-4 text-green-400 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-white text-sm md:text-base font-display">Tech Execution</h3>
+                </div>
+
+                <!-- Criterion 4 -->
+                <div class="glass-premium p-6 rounded-2xl text-center fade-up group hover:-translate-y-1 transition-transform duration-300" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 mx-auto bg-yellow-500/10 rounded-xl flex items-center justify-center mb-4 text-yellow-400 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-white text-sm md:text-base font-display">Innovation</h3>
+                </div>
+
+                <!-- Criterion 5 -->
+                <div class="glass-premium p-6 rounded-2xl text-center fade-up group hover:-translate-y-1 transition-transform duration-300 col-span-2 md:col-span-1" style="transition-delay: 400ms;">
+                    <div class="w-12 h-12 mx-auto bg-pink-500/10 rounded-xl flex items-center justify-center mb-4 text-pink-400 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+                    </div>
+                    <h3 class="font-bold text-white text-sm md:text-base font-display">Pitch Clarity</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1️⃣2️⃣ FAQ Section -->
+    <section id="faq" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none"></div>
+
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-4xl font-bold text-center mb-16 fade-up font-display text-white">FAQ</h2>
+            <div class="space-y-4 fade-up">
+                <div class="glass-premium rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/5 border border-white/5">
+                    <button class="w-full px-8 py-6 text-left font-bold flex justify-between items-center focus:outline-none hover:text-primaryLight transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-lg font-display">Is it beginner-friendly?</span>
+                        <svg class="w-5 h-5 transform transition-transform text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="hidden px-8 pb-8 text-gray-400 border-t border-white/5 pt-4 text-base leading-relaxed">Yes! Open to all levels. We encourage first-timers to apply.</div>
+                </div>
+                
+                 <div class="glass-premium rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/5 border border-white/5">
+                    <button class="w-full px-8 py-6 text-left font-bold flex justify-between items-center focus:outline-none hover:text-primaryLight transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-lg font-display">Which tech stacks are allowed?</span>
+                        <svg class="w-5 h-5 transform transition-transform text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="hidden px-8 pb-8 text-gray-400 border-t border-white/5 pt-4 text-base leading-relaxed">Any stack is allowed. No-code, Low-code, or Full-code. Use whatever helps you build best.</div>
+                </div>
+
+                <div class="glass-premium rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/5 border border-white/5">
+                    <button class="w-full px-8 py-6 text-left font-bold flex justify-between items-center focus:outline-none hover:text-primaryLight transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-lg font-display">Is it fully online?</span>
+                        <svg class="w-5 h-5 transform transition-transform text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="hidden px-8 pb-8 text-gray-400 border-t border-white/5 pt-4 text-base leading-relaxed">Yes, 100% remote. Everything happens on our Discord and platform.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1️⃣3️⃣ Final CTA -->
+    <section class="py-32 bg-darkBg text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[#05010D]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none"></div>
+        
+        <div class="relative z-10 px-4 fade-up">
+            <h2 class="text-5xl md:text-8xl font-black mb-10 leading-none font-display text-white tracking-tight">
+                Believe. Create. <br/> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#D8B4FE] to-[#F0ABFC]">Transform.</span>
+            </h2>
+            <a href="https://forms.google.com/placeholder" target="_blank" class="inline-block px-14 py-5 text-xl font-bold text-white transition-all duration-300 bg-[#711E7C] rounded-full hover:bg-[#8e299b] hover:scale-105 shadow-[0_0_50px_rgba(113,30,124,0.5)] font-display border border-[#9D2DAD]/30">
+                Submit Idea Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/10 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primaryDark flex items-center justify-center font-bold text-white text-2xl font-display shadow-lg p-2.5">
+                    <img src="Logo.png" alt="Logo"> 
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="block text-2xl font-bold text-white font-display tracking-tight">TuteDude</span>
+                    <span class="text-sm text-gray-500 font-medium tracking-wide">Building the Future</span>
+                </div>
+            </div>
+            <p class="text-gray-500 text-sm font-medium">© 2025 TuteDude. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('svg');
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up, .slide-right, .slide-left').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
